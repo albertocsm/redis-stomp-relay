@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @author Geoff Bourne
  */
 @Component
-@ConfigurationProperties("stomp-redis-relay")
+@ConfigurationProperties("stomp.redis.relay")
 @Data
 public class StompRedisRelayProperties {
     int port = 61613;

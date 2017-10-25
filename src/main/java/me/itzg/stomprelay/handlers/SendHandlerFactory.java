@@ -64,7 +64,11 @@ public class SendHandlerFactory implements StompFrameHandlerFactory {
       String channel = destination.substring(properties.getChannelPrefix().length());
 
       if (!destination.startsWith(properties.getChannelPrefix())) {
-        buildErrorResponse("Incorrect subscription prefix");
+        buildErrorResponse(String.format(
+            "Incorrect subscription prefix. Have [%s] and expected [%s]",
+            destination,
+            properties.getChannelPrefix()
+        ));
       }
 
       redisTemplate.convertAndSend(

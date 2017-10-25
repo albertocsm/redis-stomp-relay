@@ -4,8 +4,7 @@ spring:
     port: ${redis.port:6379}
     password: ${redis.password}
 
-stomp-redis-relay:
-  channel-prefix: '/channel/'
+stomp.redis.relay.channel.prefix: '/channel'
 
 logging.level.me.itzg.stomprelay: TRACE
 

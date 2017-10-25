@@ -1,20 +1,13 @@
 package me.itzg.stomprelay.handlers;
 
 import io.netty.buffer.ByteBuf;
-import java.util.UUID;
-import me.itzg.stomprelay.config.StompRedisRelayProperties;
-import me.itzg.stomprelay.services.StompRedisRelayService;
-import me.itzg.stomprelay.services.SubscriptionManagement;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.stomp.DefaultStompFrame;
 import io.netty.handler.codec.stomp.StompCommand;
 import io.netty.handler.codec.stomp.StompHeaders;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import me.itzg.stomprelay.config.StompRedisRelayProperties;
+import me.itzg.stomprelay.services.SubscriptionManagement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.nio.charset.Charset;
 
 /**
  * @author Geoff Bourne
@@ -52,7 +45,11 @@ public class SubscribeHandlerFactory implements StompFrameHandlerFactory {
             final String subId = headers.getAsString(StompHeaders.ID);
             final String destination = headers.getAsString(StompHeaders.DESTINATION);
             if (!destination.startsWith(properties.getChannelPrefix())) {
-                buildErrorResponse("Incorrect subscription prefix");
+                buildErrorResponse(String.format(
+                    "Incorrect subscription prefix. Have [%s] and expected [%s]",
+                    destination,
+                    properties.getChannelPrefix()
+                ));
             }
 
             subscriptionManagement.subscribe(
